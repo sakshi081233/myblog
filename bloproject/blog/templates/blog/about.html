@@ -1,0 +1,302 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}About Us - My GreenVoyage Blog{% endblock %}
+{% block content %}
+
+<style>
+.about-page {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* ====== LEFT MAIN SECTION ====== */
+.about-left {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.about-left img {
+    width: 100%;
+    max-width: 260px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+}
+
+.about-left h2, .about-left h3 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.about-left p {
+    line-height: 1.8;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+/* ====== Core Values Section ====== */
+.values {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.value-card {
+    flex: 1;
+    min-width: 200px;
+    background: #e0e0e0; /* light grey in light mode */
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s, color 0.3s;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.value-card h4 {
+    color: #27ae60;
+    margin-bottom: 0.5rem;
+}
+
+/* Dark mode highlight for Core Values */
+[data-theme="dark"] .value-card {
+    background: rgba(72, 72, 72, 0.7); /* subtle dark highlight */
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.5), 0 4px 12px rgba(0,0,0,0.5);
+    color: #e4e6eb;
+}
+
+[data-theme="dark"] .value-card h4 {
+    color: #60d394;
+}
+
+/* ====== Vision Section ====== */
+.vision-section {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.vision-section img {
+    width: 80%;
+    max-width: 450px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ====== CTA Section ====== */
+.cta-box {
+    margin-top: 3rem;
+    padding: 1.8rem;
+    background: linear-gradient(135deg, #81c784, #4caf50);
+    color: white;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.cta-box a {
+    display: inline-block;
+    background: white;
+    color: #2e7d32;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.cta-box a:hover {
+    background: #f1f8e9;
+}
+
+/* ====== RIGHT SIDEBAR ====== */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-section {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+}
+
+.sidebar-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.sidebar-section h4 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.sidebar-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-section li {
+    margin: 0.5rem 0;
+}
+
+.sidebar-section a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.sidebar-section a:hover {
+    text-decoration: underline;
+}
+
+/* Team Section */
+.team-section {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.team-section img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-page {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="about-page">
+    <!-- LEFT SECTION -->
+    <div class="about-left">
+        <img src="{% static 'images/kyle-loftus-DqmXihYx5UE-unsplash.jpg' %}" alt="About Us">
+        <h2>About My GreenVoyage Blog</h2>
+        <p>
+            Welcome to <strong>My GreenVoyage</strong> — your digital space for discovering the beauty of 
+            sustainable living, conscious travel, and environmental innovation. We believe every small step 
+            toward awareness can build a greener tomorrow.
+        </p>
+
+        <p>
+            Our mission is simple — to connect adventure with awareness. Whether you’re a traveler, creator, or 
+            eco-enthusiast, we share stories that inspire, educate, and empower positive change.
+        </p>
+
+        <p style="font-style: italic; color: #444;">
+            “Your first blog posts won’t be perfect — but you have to start somewhere.” 
+        </p>
+
+        <!-- Core Values -->
+        <h3> Our Core Values</h3>
+        <div class="values">
+            <div class="value-card">
+                <h4> Sustainability</h4>
+                <p>Promoting ecoconscious lifestyles and reduce the enviornmental health.</p>
+            </div>
+            <div class="value-card">
+                <h4> Responsible Travel</h4>
+                <p>Encouraging exploration that respect culture and ecosystem.</p>
+            </div>
+            <div class="value-card">
+                <h4> Innovation</h4>
+                <p>Celebrating technology that drives a sustainable future.</p>
+            </div>
+        </div>
+
+        <!-- Vision Section -->
+        <div class="vision-section">
+            <img src="{% static 'images/markus-winkler-GhEE3amEHEU-unsplash.jpg' %}" alt="Eco Travel">
+            <h3>Our Vision for a Sustainable Future</h3>
+            <p>
+                The world is evolving — and so are the ways we travel and live. 
+                <strong>My GreenVoyage</strong> envisions a future where sustainability and innovation 
+                coexist harmoniously. Together, we can protect our planet while keeping 
+                the spirit of exploration alive.
+            </p>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-box">
+            <h3>Join Our Green Movement 🌿</h3>
+            <p>Be part of our journey! Get inspired by stories, updates, and tips 
+               to help you travel and live sustainably.</p>
+            <a href="{% url 'contact' %}">Get in Touch</a>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <h4> Trending Posts</h4>
+            <ul>
+                {% for post in trending_posts %}
+                    <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a> — {{ post.views }} views</li>
+                {% empty %}
+                    <li>No trending posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h4> Latest Posts</h4>
+            <ul>
+                {% for post in latest_posts %}
+                    <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a> — {{ post.created_at|date:"M d, Y" }}</li>
+                {% empty %}
+                    <li>No recent posts.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if world_trends %}
+        <div class="sidebar-section">
+            <h4> Global Trends</h4>
+            <ul>
+                {% for article in world_trends %}
+                    <li><a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    <small> — {{ article.source.name }}</small></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="team-section">
+            <h4> Team-work</h4>
+            <img src="{% static 'images/istockphoto-2168922157-1024x1024.jpg' %}" alt="Team">
+            <p>We’re a small group of dreamers, travelers, and eco-thinkers united by a passion 
+               for conscious living and storytelling that makes an impact.</p>
+        </div>
+    </aside>
+</div>
+
+{% endblock %}

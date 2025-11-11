@@ -1,0 +1,83 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Community - My GreenVoyage{% endblock %}
+{% block content %}
+
+<style>
+.community-page {
+    margin-top: 2rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.community-header {
+    text-align: center;
+    background: #e8f5e9;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.community-header h2 {
+    color: #2e7d32;
+    margin-bottom: 1rem;
+}
+
+.community-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.community-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.community-card:hover {
+    transform: translateY(-5px);
+}
+
+.community-card img {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.community-card h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.community-card p {
+    color: #555;
+    font-size: 0.95rem;
+}
+</style>
+
+<div class="community-page">
+    <div class="community-header">
+        <h2>Our Community</h2>
+        <p>Meet our inspiring contributors — environmentalists, travelers, creators, and innovators working together for a greener tomorrow.</p>
+    </div>
+
+    <div class="community-list">
+        {% for member in contributors %}
+        <div class="community-card">
+            <img src="{% static member.image %}" alt="{{ member.name }}">
+            <h4>{{ member.name }}</h4>
+            <p><strong>{{ member.role }}</strong></p>
+            <p>{{ member.bio }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

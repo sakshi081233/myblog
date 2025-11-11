@@ -1,0 +1,267 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Contact & Contribute - My GreenVoyage{% endblock %}
+{% block content %}
+
+<style>
+/* ====== PAGE GRID ====== */
+.contact-page {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* ====== LEFT MAIN SECTION ====== */
+.contact-main {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.contact-main h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.contact-main p {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 2rem;
+}
+
+/* ====== Contribution Cards ====== */
+.contribute-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.option-card {
+    flex: 1;
+    min-width: 200px;
+    background: #e0e0e0; /* light grey in light mode */
+    padding: 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.option-card h4 {
+    color: #27ae60;
+    margin-bottom: 0.5rem;
+}
+
+.option-card p {
+    color: var(--text-color);
+}
+
+/* Dark mode for cards */
+[data-theme="dark"] .option-card {
+    background: rgba(72,72,72,0.7); /* subtle dark highlight */
+    color: #e4e6eb;
+    box-shadow: 0 0 15px rgba(96,165,250,0.5), 0 4px 12px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .option-card h4 {
+    color: #60d394;
+}
+
+/* ====== Contact Form ====== */
+.contact-form {
+    margin-top: 2rem;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+}
+
+.contact-form button {
+    background: #2e7d32; /* green button */
+    color: white;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.contact-form button:hover {
+    background: #388e3c;
+}
+
+/* ====== RIGHT SIDEBAR ====== */
+.contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sidebar-section {
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.sidebar-section h4 {
+    color: var(--text-color);
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-section a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.sidebar-section a:hover {
+    text-decoration: underline;
+}
+
+/* ====== Join Now Button Styling ====== */
+.join-now-btn {
+    display: block;
+    background: #2e7d32;
+    color: white;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    margin: 0 auto; /* center */
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.join-now-btn:hover {
+    background: #388e3c;
+}
+
+/* ====== Dark mode support for buttons (keep green) ====== */
+[data-theme="dark"] .contact-form button,
+[data-theme="dark"] .join-now-btn {
+    background: #2e7d32;
+    color: white;
+}
+
+[data-theme="dark"] .contact-form button:hover,
+[data-theme="dark"] .join-now-btn:hover {
+    background: #388e3c;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+    .contact-page {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="contact-page">
+    <!-- LEFT: MAIN CONTACT SECTION -->
+    <div class="contact-main">
+        <h2>Get Involved with My GreenVoyage</h2>
+        <p>We believe every contribution counts — your ideas, time, or creativity can help us make the world a little greener.</p>
+
+        <!-- Ways to Contribute -->
+        <div class="contribute-options">
+            <div class="option-card">
+                <h4>Write for Us</h4>
+                <p>Share your eco-travel experiences, sustainability tips, or innovations with our readers.</p>
+            </div>
+            <div class="option-card">
+                <h4>Partner With Us</h4>
+                <p>Collaborate on eco-campaigns, green products, or sustainable travel initiatives.</p>
+            </div>
+            <div class="option-card">
+                <h4>Volunteer</h4>
+                <p>Join our community projects and campaigns promoting responsible living.</p>
+            </div>
+            <div class="option-card">
+                <h4>Donate</h4>
+                <p>Support our mission by contributing towards content creation and awareness campaigns.</p>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h3 style="text-align:center; margin-top:2rem;">Send Us a Message</h3>
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Your Full Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Share your thoughts or contribution idea..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RIGHT: SIDEBAR -->
+    <aside class="contact-sidebar">
+        <div class="sidebar-section">
+            <h4> Contact Information</h4>
+            <p>Email: <a href="mailto:info@mygreenvoyage.com">info@mygreenvoyage.com</a></p>
+            <p>Phone: +91 98765 43210</p>
+            <p>Location: New Delhi, India</p>
+        </div>
+
+        <div class="sidebar-section">
+            <h4> Connect With Us</h4>
+            <p><a href="#">Instagram</a> | <a href="#">LinkedIn</a> | <a href="#">Twitter</a></p>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Newsletter</h4>
+            <p>Stay updated with our eco-news and stories.</p>
+            <form>
+                <input type="email" placeholder="Enter your email" style="width:100%; padding:0.8rem; border-radius:8px; border:1px solid #ccc;">
+                <button type="button" style="margin-top:0.5rem;">Subscribe</button>
+            </form>
+        </div>
+
+        <!-- COMMUNITY SIGN-UP -->
+        <div class="sidebar-section">
+            <p>Be part of a growing network of responsible travelers and creators. Share your ideas, collaborate, and make a difference.</p>
+            <a href="{% url 'community' %}" class="join-now-btn">Join Now</a>
+        </div>
+    </aside>
+</div>
+
+{% endblock %}

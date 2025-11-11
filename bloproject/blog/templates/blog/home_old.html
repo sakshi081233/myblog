@@ -1,0 +1,624 @@
+
+{% extends 'blog/base.html' %}
+
+{% block title %}Home - My Blog{% endblock %}
+
+{% block content %}
+<style>
+    .sidebar {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .post-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .post-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #ddd;
+    }
+
+    .post-content {
+        padding: 1.5rem;
+    }
+
+    .post-content h2 {
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .post-content h2 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .post-meta {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-excerpt {
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .read-more {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .read-more:hover {
+        background: #2980b9;
+    }
+
+    .widget {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .widget h3 {
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .widget ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .widget li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .widget a {
+        text-decoration: none;
+        color: #3498db;
+    }
+
+    .tag-cloud a {
+        display: inline-block;
+        background: #ecf0f1;
+        color: #2c3e50;
+        padding: 0.3rem 0.6rem;
+        margin: 0.2rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: background 0.3s;
+    }
+
+    .tag-cloud a:hover {
+        background: #3498db;
+        color: white;
+    }
+
+    .search-box input[type="text"] {
+        width: 100%;
+        padding: 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+
+    .pagination a, .pagination span {
+        padding: 0.5rem 1rem;
+        background: white;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #3498db;
+    }
+
+    .pagination .current {
+        background: #3498db;
+        color: white;
+    }
+</style>
+
+<h1>Current Trends</h1>
+
+<div class="sidebar">
+    <div>
+        <div class="post-grid">
+            {% for post in posts %}
+            <div class="post-card">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <div class="post-content">
+                    <h2><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h2>
+                    <div class="post-meta">
+                        By {{ post.author.username }} | {{ post.created_at|date:"M d, Y" }} | {{ post.views }} views
+                        {% if post.category %}
+                        | <a href="{% url 'category_posts' post.category.id %}">{{ post.category.name }}</a>
+                        {% endif %}
+                    </div>
+                    <p class="post-excerpt">{{ post.content|truncatewords:30 }}</p>
+                    <a href="{% url 'post_detail' post.slug %}" class="read-more">Read More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No posts available yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="pagination">
+            {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}">← Previous</a>
+            {% endif %}
+
+            <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+
+            {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <!-- About -->
+        <div class="widget">
+            <h3>About Me</h3>
+            <p>👋 Hi, I’m Sakshi! I write about technology, travel, and lifestyle. 
+            Follow along for ideas and inspiration.</p>
+        </div>
+
+        <!-- Search -->
+        <!--div class="widget search-box">
+            <h3>Search</h3>
+            <form method="get" action="">
+                <input type="text" name="q" placeholder="Search posts..." value="{{ query|default:'' }}">
+            </form>
+        </div-->
+
+        <!-- Recent -->
+        <div class="widget">
+            <h3>Recent Posts</h3>
+            <ul>
+                {% for post in recent_posts %}
+                <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></li>
+                {% empty %}
+                <li>No recent posts.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Popular -->
+        <div class="widget">
+            <h3>Popular Posts</h3>
+            <ul>
+                {% for post in popular_posts %}
+                <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a> ({{ post.views }} views)</li>
+                {% empty %}
+                <li>No popular posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Categories -->
+        <div class="widget">
+            <h3>Categories</h3>
+            <ul>
+                {% for category in categories %}
+                <li><a href="{% url 'category_posts' category.id %}">{{ category.name }}</a></li>
+                {% empty %}
+                <li>No categories yet.</li>
+                {% endfor %}
+            </ul>
+            <!--h3>Follow Me</h3>
+            <div class="d-flex gap-3">
+                <a href="https://twitter.com/yourprofile" target="_blank">🐦 Twitter</a>
+                <a href="https://instagram.com/yourprofile" target="_blank">📸 Instagram</a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">💼 LinkedIn</a>
+            </div>
+        </div>
+
+        <!-- Tags (optional) -->
+        {% if tags %}
+        <div class="widget tag-cloud">
+            <h3>Tags</h3>
+            {% for tag in tags %}
+            <a href="#">{{ tag.name }}</a>
+            {% empty %}
+            <p>No tags yet.</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}
+
+
+--------------------------------------------------------------------------
+{% extends 'blog/base.html' %}
+{% block title %}Home - My Blog{% endblock %}
+{% block content %}
+
+<style>
+    .sidebar {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1.5rem;
+        align-items: start;
+        margin-top: 2rem;
+    }
+
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .post-card, .widget {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s, color 0.3s;
+    }
+
+    /* Hover highlight effect */
+    .post-card:hover, .widget:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    .post-content h2 {
+    color: var(--text-color);
+    }
+
+    .post-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    .post-meta, .post-excerpt {
+    color: var(--text-color);
+    opacity: 0.8;
+    }
+
+    .read-more {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s;
+    }
+
+    .read-more:hover {
+    background: #2980b9;
+    }
+
+/* Tag Cloud */
+    .tag-cloud a {
+    display: inline-block;
+    background: var(--card-bg);
+    color: var(--link-color);
+    padding: 0.3rem 0.6rem;
+    margin: 0.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s, color 0.3s;
+    }
+
+    .tag-cloud a:hover {
+    background: #3498db;
+    color: white;
+    }
+
+/* Dark mode highlight for cards (optional glow) */
+    [data-theme="dark"] .post-card,
+    [data-theme="dark"] .widget {
+    box-shadow: 0 2px 10px rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    [data-theme="dark"] .read-more {
+    background: #60a5fa;
+    }
+
+    [data-theme="dark"] .read-more:hover {
+    background: #3b82f6;
+    }
+
+    .post-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #ddd;
+    }
+
+    .post-content {
+        padding: 1.5rem;
+    }
+
+    .post-content h2 {
+        margin-bottom: 0.5rem;
+        color: #2c3e50;
+    }
+
+    .post-content h2 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .post-meta {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-excerpt {
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .read-more {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .read-more:hover {
+        background: #2980b9;
+    }
+
+    .widget {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+
+    .widget h3 {
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .widget ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .widget li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .widget a {
+        text-decoration: none;
+        color: #3498db;
+    }
+
+    .tag-cloud a {
+        display: inline-block;
+        background: #ecf0f1;
+        color: #2c3e50;
+        padding: 0.3rem 0.6rem;
+        margin: 0.2rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: background 0.3s;
+    }
+
+    .tag-cloud a:hover {
+        background: #3498db;
+        color: white;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+
+    .pagination a, .pagination span {
+        padding: 0.5rem 1rem;
+        background: white;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #3498db;
+    }
+
+    .pagination .current {
+        background: #3498db;
+        color: white;
+    }
+    .hidden-category {
+    display: none;
+}
+
+#toggleCategories {
+    background: none;
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#toggleCategories:hover {
+    background: #3498db;
+    color: white;
+}
+
+</style>
+
+
+<!-- 🔸 ADD THIS SECTION BELOW THE HEADING -->
+<form method="get" action="{% url 'home' %}" class="d-flex flex-wrap mb-4">
+  <!-- Category Filter -->
+  <select name="category" class="form-select me-2 mb-2" style="max-width:200px;">
+    <option value="">All Categories</option>
+    {% for cat in categories %}
+      <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>
+        {{ cat.name }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <!-- Search Bar -->
+  <input type="text" name="q" class="form-control me-2 mb-2" 
+         placeholder="Search posts..." value="{{ query|default:'' }}" style="max-width:300px;">
+  
+  <button class="btn btn-success mb-2" type="submit">Search</button>
+</form>
+<!-- 🔸 FILTER + SEARCH SECTION ENDS -->
+
+<div class="sidebar">
+    <div>
+        <div class="post-grid">
+            {% for post in posts %}
+            <div class="post-card">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <div class="post-content">
+                    <h2><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h2>
+                    <div class="post-meta">
+                        By {{ post.author.username }} | {{ post.created_at|date:"M d, Y" }} | {{ post.views }} views
+                        {% if post.category %}
+                        | <a href="{% url 'category_posts' post.category.id %}">{{ post.category.name }}</a>
+                        {% endif %}
+                    </div>
+                    <p class="post-excerpt">{{ post.content|truncatewords:30 }}</p>
+                    <a href="{% url 'post_detail' post.slug %}" class="read-more">Read More →</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No posts available yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="pagination">
+            {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}">← Previous</a>
+            {% endif %}
+            <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+            {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+        <div class="widget">
+            <h3>About Me</h3>
+            <p>👋 Hi, I’m Sakshi! I write about technology, travel, and lifestyle. 
+            Follow along for ideas and inspiration.</p>
+        </div>
+
+        <div class="widget">
+            <h3>Recent Posts</h3>
+            <ul>
+                {% for post in recent_posts %}
+                <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></li>
+                {% empty %}
+                <li>No recent posts.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="widget">
+            <h3>Popular Posts</h3>
+            <ul>
+                {% for post in popular_posts %}
+                <li><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a> ({{ post.views }} views)</li>
+                {% empty %}
+                <li>No popular posts yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="widget">
+        <h3>Categories</h3>
+        <ul id="categoryList">
+            {% for category in categories %}
+            <li class="{% if forloop.counter > 4 %}hidden-category{% endif %}">
+                <a href="{% url 'category_posts' category.id %}">{{ category.name }}</a>
+            </li>
+            {% empty %}
+            <li>No categories yet.</li>
+            {% endfor %}
+        </ul>
+
+        {% if categories|length > 4 %}
+        <button id="toggleCategories" class="btn btn-sm btn-outline-primary mt-2">Show More</button>
+        {% endif %}
+        </div>
+
+        {% if tags %}
+        <div class="widget tag-cloud">
+            <h3>Tags</h3>
+            {% for tag in tags %}
+            <a href="#">{{ tag.name }}</a>
+            {% empty %}
+            <p>No tags yet.</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </aside>
+</div>
+
+
+{% endblock %}

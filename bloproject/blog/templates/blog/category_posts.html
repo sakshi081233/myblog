@@ -1,0 +1,167 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5 explore-section">
+    <div class="container-fluid px-5 category-container">
+
+        <!-- Page Heading -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-success section-title">Explore Our Blog Categories</h2>
+            <p class="text-muted small section-subtitle">
+                Dive into diverse topics — from eco-travel adventures and sustainable lifestyles
+                to the latest technology and global environmental trends.
+            </p>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="row justify-content-center g-4">
+
+            <!-- Technology -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card category-card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/technology.jpg' %}" class="card-img-top" alt="Technology">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Technology</h5>
+                        <p class="text-muted small mb-3">Explore how innovation is shaping a sustainable world — from clean energy tech to smart travel solutions.</p>
+                        <a href="{% url 'category_posts' 1 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card category-card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/lifestyle.jpg' %}" class="card-img-top" alt="Lifestyle">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Lifestyle</h5>
+                        <p class="text-muted small mb-3">Tips and stories that promote eco-conscious living and sustainable everyday choices.</p>
+                        <a href="{% url 'category_posts' 2 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card category-card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/travel.jpg' %}" class="card-img-top" alt="Travel">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Travel</h5>
+                        <p class="text-muted small mb-3">Discover eco-friendly destinations, green hotels, and mindful travel practices.</p>
+                        <a href="{% url 'category_posts' 3 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card category-card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/greentech.jpg' %}" class="card-img-top" alt="Environment">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Environment</h5>
+                        <p class="text-muted small mb-3">Stay informed about global environmental issues, climate change, and conservation efforts.</p>
+                        <a href="{% url 'category_posts' 4 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card category-card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/trending things.jpg' %}" class="card-img-top" alt="Trending Things">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Trending Things</h5>
+                        <p class="text-muted small mb-3">Catch up on what’s trending — the latest ideas, global green movements, and social impact stories.</p>
+                        <a href="{% url 'category_posts' 5 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+/* Base light mode container */
+.category-container {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Base card for light mode */
+.category-card {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 128, 0, 0.15);
+}
+
+/* Card image */
+.category-card img {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Buttons */
+.category-card .btn-success {
+    background-color: #2e7d32 !important;
+    color: #fff !important;
+    transition: background 0.3s ease;
+}
+
+.category-card .btn-success:hover {
+    background-color: #256628 !important;
+}
+
+/* ========== DARK MODE ========== */
+
+/* Dark mode container background */
+[data-theme="dark"] .category-container {
+    background: linear-gradient(145deg, #121212, #1f1f1f);
+    box-shadow: 0 0 25px rgba(0, 128, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Title and subtitle colors */
+[data-theme="dark"] .section-title {
+    color: #81c784 !important; /* lighter green */
+}
+
+[data-theme="dark"] .section-subtitle {
+    color: #cfd8dc !important;
+}
+
+/* Card background in dark mode */
+[data-theme="dark"] .category-card {
+    background: rgba(60, 60, 60, 0.8);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.4);
+    color: #e4e6eb;
+}
+
+/* Card heading & text */
+[data-theme="dark"] .category-card h5 {
+    color: #81c784 !important;
+}
+
+[data-theme="dark"] .category-card p {
+    color: #d0d0d0 !important;
+}
+
+/* Responsive container padding */
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+</style>
+{% endblock %}

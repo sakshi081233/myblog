@@ -1,0 +1,127 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container-fluid px-5">
+
+        <!-- Page Heading -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-success">Explore Our Blog Categories</h2>
+            <p class="text-muted small">
+                Dive into diverse topics — from eco-travel adventures and sustainable lifestyles
+                to the latest technology and global environmental trends.
+            </p>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="row justify-content-center g-4">
+
+            <!-- Category Card Template -->
+            {% for category in categories %}
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static category.image %}" class="card-img-top" alt="{{ category.name }}"
+                         style="height:180px; object-fit:cover; border-top-left-radius:10px; border-top-right-radius:10px;">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">{{ category.name }}</h5>
+                        <p class="text-muted small mb-3">{{ category.description }}</p>
+                        <a href="{% url 'category_posts' category.id %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- If you don’t use a loop, here’s the static version: -->
+
+            <!-- Technology -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/technology.jpg' %}" class="card-img-top" alt="Technology">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Technology</h5>
+                        <p class="text-muted small mb-3">Explore how innovation is shaping a sustainable world — from clean energy tech to smart travel solutions.</p>
+                        <a href="{% url 'category_posts' 1 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/lifestyle.jpg' %}" class="card-img-top" alt="Lifestyle">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Lifestyle</h5>
+                        <p class="text-muted small mb-3">Tips and stories that promote eco-conscious living and sustainable everyday choices.</p>
+                        <a href="{% url 'category_posts' 2 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/travel.jpg' %}" class="card-img-top" alt="Travel">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Travel</h5>
+                        <p class="text-muted small mb-3">Discover eco-friendly destinations, green hotels, and mindful travel practices.</p>
+                        <a href="{% url 'category_posts' 3 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/greentech.jpg' %}" class="card-img-top" alt="Environment">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Environment</h5>
+                        <p class="text-muted small mb-3">Stay informed about global environmental issues, climate change, and conservation efforts.</p>
+                        <a href="{% url 'category_posts' 4 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending -->
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                <div class="card border-0 shadow-sm h-100 hover-card">
+                    <img src="{% static 'images/trending things.jpg' %}" class="card-img-top" alt="Trending Things">
+                    <div class="card-body text-center">
+                        <h5 class="fw-semibold text-success mb-2">Trending Things</h5>
+                        <p class="text-muted small mb-3">Catch up on what’s trending — the latest ideas, global green movements, and social impact stories.</p>
+                        <a href="{% url 'category_posts' 5 %}" class="btn btn-success btn-sm px-3">Explore</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .hover-card {
+        transition: all 0.3s ease-in-out;
+        border-radius: 10px;
+        background-color: #fff;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 128, 0, 0.15);
+    }
+
+    .card img {
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    @media (max-width: 576px) {
+        .container-fluid {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+</style>
+{% endblock %}
